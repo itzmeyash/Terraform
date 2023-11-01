@@ -1,0 +1,45 @@
+Question 1:
+You are performing a code review of a colleague's Terraform code and see the following code. Where is this module stored?
+module "vault-aws-tgw" {
+ source  = "terraform-vault-aws-tgw/hcp"
+ version = "1.0.0"
+
+
+ client_id      = "4djlsn29sdnjk2btk"
+ hvn_id         = "a4c9357ead4de"
+ route_table_id = "rtb-a221958bc5892eade331"
+}
+
+
+Options:-
+a)in a Terraform Cloud private module registry
+b)in a local file under a directory named terraform/vault-aws-tgw/hcp
+c)a local code repository on your network
+d)the Terraform public module registry (Correct)
+
+
+Explanation:-
+You can use the Terraform Public Module Registry by referencing the modules you want to use in your Terraform code and including them as part of your configuration.
+To reference a module from the Terraform Public Module Registry, you can use the module block in your Terraform code. For example, if you want to use a VPC module from the registry, you would add the following code to your Terraform configuration:
+module "vpc" {
+ source = "terraform-aws-modules/vpc"
+ version = "2.34.0"
+ 
+ # Add any required variables and configuration here
+}
+
+The source attribute specifies the module source, which is the repository on the Terraform Public Module Registry. The version attribute specifies the version of the module you want to use.
+You can also pass values for variables in the module by them within the module block. For example:
+module "vpc" {
+ source = "terraform-aws-modules/vpc"
+ version = "2.34.0"
+ 
+ name = "my-vpc"
+ cidr = "10.0.0.0/16"
+ azs  = ["us-west-2a", "us-west-2b", "us-west-2c"]
+}
+Once you've specified the module in your Terraform code, you can use it as you would any other resource. For example, you could reference the VPC ID created by the VPC module with the following code:
+output "vpc_id" {
+ value = module.vpc.vpc_id
+}
+You can find more information on using modules from the Terraform Public Module Registry in the Terraform documentation: https://www.terraform.io/docs/configuration/modules.html
